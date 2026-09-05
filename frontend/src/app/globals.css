@@ -30,7 +30,7 @@
 
   --color-header: #0f172a;
 
-  --font-sans: "Plus Jakarta Sans", system-ui, -apple-system, sans-serif;
+  --font-sans: var(--font-plus-jakarta), system-ui, -apple-system, sans-serif;
 
   --radius-sm: 6px;
   --radius-md: 8px;
