@@ -11,21 +11,21 @@ interface SuggestionCardProps {
 function confidenceMeta(confidence: number) {
   if (confidence > 0.8) {
     return {
-      bar: 'bg-success',
-      badge: 'bg-success-subtle text-green-800',
+      bar: 'bg-success shadow-[0_0_8px_rgb(34_197_94/0.4)]',
+      badge: 'bg-success-subtle text-success border border-success/20',
       label: 'High confidence',
     };
   }
   if (confidence >= 0.5) {
     return {
-      bar: 'bg-warning',
-      badge: 'bg-warning-subtle text-yellow-800',
+      bar: 'bg-warning shadow-[0_0_8px_rgb(234_179_8/0.3)]',
+      badge: 'bg-warning-subtle text-warning border border-warning/20',
       label: 'Medium confidence',
     };
   }
   return {
-    bar: 'bg-danger',
-    badge: 'bg-danger-subtle text-red-800',
+    bar: 'bg-danger shadow-[0_0_8px_rgb(239_68_68/0.3)]',
+    badge: 'bg-danger-subtle text-danger border border-danger/20',
     label: 'Low confidence',
   };
 }
@@ -42,7 +42,7 @@ export function SuggestionCard({
 
   return (
     <article
-      className="animate-fade-slide-up bg-surface rounded-lg border border-border shadow-sm overflow-hidden transition-shadow duration-200 hover:shadow-md"
+      className="animate-fade-slide-up glass-subtle rounded-xl overflow-hidden transition-all duration-200 hover:bg-white/[0.06] hover:border-white/10"
       style={{ animationDelay: `${animationDelay}ms` }}
     >
       <div className={`h-0.5 ${meta.bar}`} aria-hidden="true" />
@@ -55,10 +55,10 @@ export function SuggestionCard({
           <div className="flex items-center gap-0.5 shrink-0">
             <button
               onClick={() => onTogglePin(card.id)}
-              className={`min-w-[44px] min-h-[44px] flex items-center justify-center rounded-md transition-colors duration-200 cursor-pointer ${
+              className={`min-w-[44px] min-h-[44px] flex items-center justify-center rounded-lg transition-all duration-200 cursor-pointer ${
                 isPinned
-                  ? 'text-primary bg-primary-subtle hover:bg-blue-100'
-                  : 'text-text-muted hover:bg-surface-raised hover:text-text-secondary'
+                  ? 'text-primary bg-primary-subtle hover:bg-primary/20 border border-primary/20'
+                  : 'text-text-muted hover:bg-white/5 hover:text-text-secondary'
               }`}
               aria-label={isPinned ? 'Unpin suggestion' : 'Pin suggestion'}
               aria-pressed={isPinned}
@@ -69,7 +69,7 @@ export function SuggestionCard({
             </button>
             <button
               onClick={() => onDismiss(card.id)}
-              className="min-w-[44px] min-h-[44px] flex items-center justify-center rounded-md text-text-muted hover:bg-surface-raised hover:text-text-secondary transition-colors duration-200 cursor-pointer"
+              className="min-w-[44px] min-h-[44px] flex items-center justify-center rounded-lg text-text-muted hover:bg-white/5 hover:text-text-secondary transition-all duration-200 cursor-pointer"
               aria-label="Dismiss suggestion"
             >
               <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
@@ -82,11 +82,11 @@ export function SuggestionCard({
         <p className="text-sm text-text-secondary mb-3.5 leading-relaxed">{card.answer}</p>
 
         <div className="flex items-center flex-wrap gap-2">
-          <span className="text-xs font-medium px-2.5 py-1 rounded-md bg-primary-subtle text-primary">
+          <span className="text-xs font-medium px-2.5 py-1 rounded-md bg-primary-subtle text-primary border border-primary/20">
             {card.source}
           </span>
           <span
-            className={`text-xs font-medium px-2.5 py-1 rounded-md tabular-nums ${meta.badge}`}
+            className={`metric-value text-xs font-medium px-2.5 py-1 rounded-md ${meta.badge}`}
             title={meta.label}
           >
             {pct}% confidence

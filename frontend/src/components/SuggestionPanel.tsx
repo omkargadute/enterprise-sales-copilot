@@ -1,6 +1,7 @@
 import { useState, useCallback } from 'react';
 import type { SuggestionCard as SuggestionCardType } from '../types';
 import { SuggestionCard } from './SuggestionCard';
+import { GlassPanel, PanelHeader } from './GlassPanel';
 
 interface SuggestionPanelProps {
   suggestions: SuggestionCardType[];
@@ -10,7 +11,7 @@ interface SuggestionPanelProps {
 function EmptyState() {
   return (
     <div className="flex flex-col items-center justify-center h-full px-6 py-12 text-center">
-      <div className="w-12 h-12 rounded-full bg-surface-raised flex items-center justify-center mb-4">
+      <div className="w-14 h-14 rounded-2xl glass-subtle flex items-center justify-center mb-4">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           className="w-6 h-6 text-text-muted"
@@ -26,8 +27,8 @@ function EmptyState() {
         </svg>
       </div>
       <p className="text-sm font-medium text-text-secondary">No suggestions yet</p>
-      <p className="text-sm text-text-muted mt-1 max-w-[280px]">
-        Product questions detected in the call will appear here with suggested answers.
+      <p className="text-sm text-text-muted mt-1.5 max-w-[300px] leading-relaxed">
+        Product questions detected in the call appear here with AI-generated answers in ~3 seconds.
       </p>
     </div>
   );
@@ -50,26 +51,26 @@ export function SuggestionPanel({ suggestions, onDismiss }: SuggestionPanelProps
   const sorted = [...pinned, ...unpinned];
 
   return (
-    <div className="flex flex-col h-full bg-surface-muted min-h-[240px] lg:min-h-0">
-      <div className="px-4 sm:px-5 py-3 border-b border-border flex items-center justify-between shrink-0 bg-surface">
-        <div>
-          <h2 className="text-sm font-semibold text-text-primary">AI Suggestions</h2>
-          <p className="text-xs text-text-muted mt-0.5">Detected questions and recommended responses</p>
-        </div>
-        {sorted.length > 0 && (
-          <span className="text-xs font-medium tabular-nums text-text-muted bg-surface-raised px-2 py-0.5 rounded-md">
-            {sorted.length} active
-          </span>
-        )}
-      </div>
+    <GlassPanel className="flex flex-col h-full min-h-[240px] lg:min-h-0" animate delay={60}>
+      <PanelHeader
+        title="AI Suggestions"
+        subtitle="Detected questions and recommended responses"
+        badge={
+          sorted.length > 0 ? (
+            <span className="metric-value text-xs font-medium text-primary glass-subtle px-2 py-0.5 rounded-md border border-primary/20">
+              {sorted.length} active
+            </span>
+          ) : undefined
+        }
+      />
 
-      <div className="flex-1 overflow-y-auto px-4 sm:px-5 py-4">
+      <div className="flex-1 overflow-y-auto scrollbar-thin px-4 sm:px-5 py-4">
         {sorted.length === 0 ? (
           <EmptyState />
         ) : (
           <div className="space-y-3">
             {pinned.length > 0 && unpinned.length > 0 && (
-              <p className="text-xs font-medium text-text-muted uppercase tracking-wide px-0.5">
+              <p className="text-[11px] font-medium text-text-muted uppercase tracking-wider px-0.5">
                 Pinned
               </p>
             )}
@@ -82,7 +83,7 @@ export function SuggestionPanel({ suggestions, onDismiss }: SuggestionPanelProps
               return (
                 <div key={card.id}>
                   {showUnpinnedHeader && (
-                    <p className="text-xs font-medium text-text-muted uppercase tracking-wide px-0.5 mb-3 mt-1">
+                    <p className="text-[11px] font-medium text-text-muted uppercase tracking-wider px-0.5 mb-3 mt-1">
                       Recent
                     </p>
                   )}
@@ -99,6 +100,6 @@ export function SuggestionPanel({ suggestions, onDismiss }: SuggestionPanelProps
           </div>
         )}
       </div>
-    </div>
+    </GlassPanel>
   );
 }

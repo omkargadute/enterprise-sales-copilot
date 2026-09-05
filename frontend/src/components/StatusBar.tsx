@@ -54,39 +54,43 @@ export function StatusBar({
   const timer = `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
 
   return (
-    <header className="bg-header text-white px-4 sm:px-6 py-3 flex items-center justify-between shrink-0 gap-4">
+    <header className="glass-strong border-b border-border px-4 sm:px-6 py-3 flex items-center justify-between shrink-0 gap-4 animate-panel-enter">
       <div className="flex items-center gap-3 min-w-0">
-        <div className="flex items-center gap-2.5 min-w-0">
+        <div className="flex items-center gap-3 min-w-0">
           <div
-            className="w-7 h-7 rounded-md bg-primary flex items-center justify-center shrink-0"
+            className="w-9 h-9 rounded-xl bg-primary/20 border border-primary/30 flex items-center justify-center shrink-0 shadow-[0_0_20px_rgb(94_106_210/0.2)]"
             aria-hidden="true"
           >
-            <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <svg xmlns="http://www.w3.org/2000/svg" className="w-4.5 h-4.5 text-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <path d="M12 2L2 7l10 5 10-5-10-5z" />
               <path d="M2 17l10 5 10-5" />
               <path d="M2 12l10 5 10-5" />
             </svg>
           </div>
           <div className="min-w-0">
-            <h1 className="text-base font-semibold tracking-tight truncate">Sales Copilot</h1>
-            <p className="text-xs text-slate-400 tabular-nums hidden sm:block">{timer} elapsed</p>
+            <h1 className="text-base font-bold tracking-tight truncate gradient-text">
+              Sales Copilot
+            </h1>
+            <p className="text-[11px] text-text-muted tabular-nums hidden sm:block">
+              Session · <span className="metric-value">{timer}</span>
+            </p>
           </div>
         </div>
       </div>
 
-      <div className="flex items-center gap-2 sm:gap-3 shrink-0">
+      <div className="flex items-center gap-2 sm:gap-2.5 shrink-0">
         <div
-          className="hidden sm:flex items-center gap-2 px-2.5 py-1 rounded-md bg-white/5 text-xs font-medium"
+          className="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-lg glass-subtle text-xs font-medium"
           role="status"
           aria-live="polite"
         >
           <span
             className={`w-2 h-2 rounded-full shrink-0 ${
-              isConnected ? 'bg-green-400' : 'bg-red-400 animate-blink'
+              isConnected ? 'bg-success shadow-[0_0_8px_rgb(34_197_94/0.5)]' : 'bg-danger animate-blink'
             }`}
             aria-hidden="true"
           />
-          <span className="text-slate-300">
+          <span className="text-text-secondary">
             {isConnected ? 'Connected' : 'Disconnected'}
           </span>
         </div>
@@ -94,7 +98,7 @@ export function StatusBar({
         {isDemoRunning ? (
           <button
             onClick={onStopDemo}
-            className="flex items-center gap-1.5 min-h-[44px] px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200 cursor-pointer bg-danger hover:bg-red-700 text-white focus-visible:outline-offset-[-2px]"
+            className="flex items-center gap-1.5 min-h-[44px] px-3.5 py-2 rounded-lg text-sm font-medium transition-all duration-200 cursor-pointer bg-danger/90 hover:bg-danger text-white border border-danger/50 focus-visible:outline-offset-[-2px]"
             aria-label="Stop demo playback"
           >
             <StopIcon className="w-4 h-4" />
@@ -104,7 +108,7 @@ export function StatusBar({
           <button
             onClick={onStartDemo}
             disabled={!isConnected}
-            className="flex items-center gap-1.5 min-h-[44px] px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200 cursor-pointer bg-white/10 hover:bg-white/15 text-white disabled:opacity-40 disabled:cursor-not-allowed focus-visible:outline-offset-[-2px]"
+            className="flex items-center gap-1.5 min-h-[44px] px-3.5 py-2 rounded-lg text-sm font-medium transition-all duration-200 cursor-pointer glass-subtle hover:bg-white/10 text-text-primary disabled:opacity-40 disabled:cursor-not-allowed focus-visible:outline-offset-[-2px]"
             aria-label="Start demo playback"
           >
             <PlayIcon className="w-4 h-4" />
@@ -115,10 +119,10 @@ export function StatusBar({
         <button
           onClick={onToggleMic}
           disabled={!isConnected}
-          className={`flex items-center gap-1.5 min-h-[44px] px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200 cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed focus-visible:outline-offset-[-2px] ${
+          className={`flex items-center gap-1.5 min-h-[44px] px-3.5 py-2 rounded-lg text-sm font-semibold transition-all duration-200 cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed focus-visible:outline-offset-[-2px] ${
             isCapturing
-              ? 'bg-danger hover:bg-red-700 text-white animate-pulse-ring'
-              : 'bg-primary hover:bg-primary-hover text-white'
+              ? 'bg-danger/90 hover:bg-danger text-white border border-danger/50 animate-pulse-ring'
+              : 'btn-primary-glow text-white'
           }`}
           aria-label={isCapturing ? 'Stop microphone capture' : 'Start microphone capture'}
           aria-pressed={isCapturing}

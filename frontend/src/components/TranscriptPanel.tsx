@@ -1,5 +1,6 @@
 import { useEffect, useRef } from 'react';
 import type { TranscriptUpdate } from '../types';
+import { GlassPanel, PanelHeader } from './GlassPanel';
 
 interface TranscriptPanelProps {
   transcripts: TranscriptUpdate[];
@@ -28,7 +29,7 @@ function textClass(speaker: string, isFinal: boolean): string {
 function EmptyState() {
   return (
     <div className="flex flex-col items-center justify-center h-full px-6 py-12 text-center">
-      <div className="w-12 h-12 rounded-full bg-surface-raised flex items-center justify-center mb-4">
+      <div className="w-14 h-14 rounded-2xl glass-subtle flex items-center justify-center mb-4">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           className="w-6 h-6 text-text-muted"
@@ -47,8 +48,8 @@ function EmptyState() {
         </svg>
       </div>
       <p className="text-sm font-medium text-text-secondary">Waiting for audio</p>
-      <p className="text-sm text-text-muted mt-1 max-w-[240px]">
-        Start the mic or run a demo to see the live transcript.
+      <p className="text-sm text-text-muted mt-1.5 max-w-[260px] leading-relaxed">
+        Start the mic or run a demo to see live transcription.
       </p>
     </div>
   );
@@ -65,20 +66,20 @@ export function TranscriptPanel({ transcripts }: TranscriptPanelProps) {
   let lastSpeaker = '';
 
   return (
-    <div className="flex flex-col h-full bg-surface min-h-[200px] lg:min-h-0">
-      <div className="px-4 sm:px-5 py-3 border-b border-border flex items-center justify-between shrink-0">
-        <div>
-          <h2 className="text-sm font-semibold text-text-primary">Live Transcript</h2>
-          <p className="text-xs text-text-muted mt-0.5">Real-time call transcription</p>
-        </div>
-        {finalCount > 0 && (
-          <span className="text-xs font-medium tabular-nums text-text-muted bg-surface-raised px-2 py-0.5 rounded-md">
-            {finalCount} {finalCount === 1 ? 'line' : 'lines'}
-          </span>
-        )}
-      </div>
+    <GlassPanel className="flex flex-col h-full min-h-[200px] lg:min-h-0" animate>
+      <PanelHeader
+        title="Live Transcript"
+        subtitle="Real-time call transcription"
+        badge={
+          finalCount > 0 ? (
+            <span className="metric-value text-xs font-medium text-text-muted glass-subtle px-2 py-0.5 rounded-md">
+              {finalCount} {finalCount === 1 ? 'line' : 'lines'}
+            </span>
+          ) : undefined
+        }
+      />
 
-      <div className="flex-1 overflow-y-auto px-4 sm:px-5 py-4">
+      <div className="flex-1 overflow-y-auto scrollbar-thin px-4 sm:px-5 py-4">
         {transcripts.length === 0 ? (
           <EmptyState />
         ) : (
@@ -89,19 +90,22 @@ export function TranscriptPanel({ transcripts }: TranscriptPanelProps) {
               if (t.is_final) lastSpeaker = t.speaker;
 
               return (
-                <div key={i} className={showLabel ? 'mt-4 first:mt-0' : undefined}>
+                <div key={i} className={showLabel ? 'mt-5 first:mt-0' : undefined}>
                   {showLabel && (
                     <div className="flex items-center gap-2 mb-1.5">
-                      <span className={`w-1.5 h-1.5 rounded-full shrink-0 ${meta.dot}`} aria-hidden="true" />
-                      <span className={`text-xs font-semibold uppercase tracking-wide ${meta.label}`}>
+                      <span
+                        className={`w-2 h-2 rounded-full shrink-0 ${meta.dot} shadow-[0_0_8px_currentColor]`}
+                        aria-hidden="true"
+                      />
+                      <span className={`text-[11px] font-semibold uppercase tracking-wider ${meta.label}`}>
                         {meta.name}
                       </span>
                     </div>
                   )}
-                  <p className={`text-[15px] leading-relaxed pl-3.5 ${textClass(t.speaker, t.is_final)}`}>
+                  <p className={`text-[15px] leading-relaxed pl-4 ${textClass(t.speaker, t.is_final)}`}>
                     {t.text}
                     {!t.is_final && (
-                      <span className="inline-block w-0.5 h-4 bg-text-muted ml-0.5 align-middle animate-blink" aria-hidden="true" />
+                      <span className="inline-block w-0.5 h-4 bg-primary/60 ml-0.5 align-middle animate-blink" aria-hidden="true" />
                     )}
                   </p>
                 </div>
@@ -111,6 +115,6 @@ export function TranscriptPanel({ transcripts }: TranscriptPanelProps) {
         )}
         <div ref={bottomRef} />
       </div>
-    </div>
+    </GlassPanel>
   );
 }
