@@ -17,6 +17,8 @@ data/
 # Frontend
 frontend/node_modules/
 frontend/dist/
+frontend/.next/
+frontend/out/
 frontend/.vercel/
 
 # Vercel (repo root link)

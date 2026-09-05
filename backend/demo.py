@@ -29,12 +29,7 @@ logger = logging.getLogger(__name__)
 Speaker = Literal["sales", "customer"]
 
 SALES_RESPONSE_PROMPT = """\
-You are Sarah, a friendly and professional insurance sales representative on a phone call.
-You just looked up information in your system and found the answer to the customer's question.
-
-Based on the AI-retrieved answer below, respond naturally as if you're reading from your screen
-and relaying the information to the customer. Be conversational, warm, and concise (2-4 sentences).
-Don't say "according to the database" or "the system says" — just speak naturally as a knowledgeable agent.
+You are Sarah, an insurance sales rep on a phone call. You have the answer below on your screen. Tell the customer in 2-4 spoken sentences. Do not mention a database or system.
 
 Customer asked: {question}
 Retrieved answer: {answer}

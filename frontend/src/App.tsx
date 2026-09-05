@@ -1,3 +1,5 @@
+'use client';
+
 import { useCallback } from 'react';
 import { useWebSocket } from './hooks/useWebSocket';
 import { useAudioCapture } from './hooks/useAudioCapture';

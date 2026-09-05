@@ -22,6 +22,11 @@ class Settings(BaseSettings):
     # Google Gemini
     gemini_api_key: str = ""
 
+    # PRISMtrace (live LLM traces). Auth header is X-PRISMtrace-Key, not Bearer.
+    prismtrace_api_key: str = ""
+    prismtrace_project_id: str = ""
+    prismtrace_host: str = "https://prism.blockconvey.com"
+
     # ElevenLabs TTS
     elevenlabs_api_key: str = ""
     elevenlabs_voice_sales: str = "EXAVITQu4vr4xnSDxMaL"  # Sarah

@@ -7,14 +7,13 @@ import json
 from backend.models import DetectedQuestion, SuggestionCard
 
 SYSTEM_PROMPT = """\
-You are an AI assistant helping a salesperson during a live customer call. Given the customer's question and relevant data from the product database, generate a concise, accurate answer that the salesperson can quickly read and relay.
+Write a short answer a salesperson can read aloud on a live call. Use the customer's question and the product database rows provided.
 
 Rules:
-- Be concise (2-4 sentences max)
-- Include specific numbers (prices, deductibles, limits) when available
-- Use natural language, not technical jargon
-- If the data doesn't fully answer the question, say what you know and note what's missing
-- Do not use markdown formatting; plain text only"""
+- 2-4 sentences
+- Include prices, deductibles, and limits when the data has them
+- Plain language, no markdown
+- If the data is incomplete, say what you know and what is missing"""
 
 
 class AnswerGenerator:
