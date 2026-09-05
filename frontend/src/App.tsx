@@ -32,7 +32,7 @@ export default function App() {
   }, [isCapturing, startCapture, stopCapture]);
 
   return (
-    <div className="flex flex-col h-screen bg-gray-100">
+    <div className="flex flex-col h-dvh bg-surface-muted">
       <StatusBar
         isConnected={isConnected}
         isCapturing={isCapturing}
@@ -42,19 +42,26 @@ export default function App() {
         onStopDemo={stopDemo}
       />
 
-      <div className="flex flex-1 min-h-0">
-        <div className="w-2/5 border-r border-gray-200">
+      <main className="flex flex-1 min-h-0 flex-col lg:flex-row">
+        <section
+          className="flex flex-col min-h-0 lg:w-[42%] xl:w-[38%] border-b lg:border-b-0 lg:border-r border-border"
+          aria-label="Live transcript"
+        >
           <TranscriptPanel transcripts={transcripts} />
-        </div>
-        <div className="w-3/5">
+        </section>
+
+        <section
+          className="flex flex-col flex-1 min-h-0"
+          aria-label="AI suggestions"
+        >
           <SuggestionPanel
             suggestions={suggestions}
             onDismiss={dismissSuggestion}
           />
-        </div>
-      </div>
+        </section>
+      </main>
 
-      <TextInput onSend={sendText} />
+      <TextInput onSend={sendText} disabled={!isConnected} />
     </div>
   );
 }
