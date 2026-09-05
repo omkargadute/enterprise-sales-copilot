@@ -31,10 +31,10 @@ secrets = [modal.Secret.from_name("sales-copilot")]
     image=image,
     secrets=secrets,
     env={
-        # Accept local Vite + any Vercel preview/production hostname.
+        # Accept local Next.js + any Vercel preview/production hostname.
         # After you have a stable frontend domain, set FRONTEND_URL in the
         # sales-copilot secret and optionally tighten CORS_ORIGIN_REGEX.
-        "CORS_ORIGINS": "http://localhost:5173,http://localhost:4173",
+        "CORS_ORIGINS": "http://localhost:3000",
         "CORS_ORIGIN_REGEX": r"https://.*\.vercel\.app",
     },
     scaledown_window=300,

@@ -27,7 +27,7 @@ app = FastAPI(title="Enterprise Sales Copilot")
 
 
 def _cors_origins() -> list[str]:
-    raw = os.environ.get("CORS_ORIGINS", "http://localhost:5173,http://localhost:4173")
+    raw = os.environ.get("CORS_ORIGINS", "http://localhost:3000")
     origins = [o.strip() for o in raw.split(",") if o.strip()]
     frontend_url = os.environ.get("FRONTEND_URL", "").strip()
     if frontend_url and frontend_url not in origins:

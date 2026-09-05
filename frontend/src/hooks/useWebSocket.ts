@@ -13,16 +13,17 @@ function wsSend(ws: WebSocket | null, msg: object) {
   }
 }
 
-/** Resolve WS base URL: VITE_BACKEND_URL in prod, same-origin (Vite proxy) in dev. */
+/** Resolve WS base URL: NEXT_PUBLIC_BACKEND_URL in prod; local FastAPI in dev. */
 function backendWsBase(): string {
-  const configured = (import.meta.env.VITE_BACKEND_URL as string | undefined)?.replace(
-    /\/$/,
-    '',
-  );
+  const configured = process.env.NEXT_PUBLIC_BACKEND_URL?.replace(/\/$/, '');
   if (configured) {
     if (configured.startsWith('https://')) return configured.replace(/^https/, 'wss');
     if (configured.startsWith('http://')) return configured.replace(/^http/, 'ws');
     return configured;
+  }
+  // Next.js does not proxy WebSockets reliably — talk to FastAPI directly in dev.
+  if (process.env.NODE_ENV === 'development') {
+    return 'ws://localhost:8000';
   }
   const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
   return `${protocol}//${window.location.host}`;

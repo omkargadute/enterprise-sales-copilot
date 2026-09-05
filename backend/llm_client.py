@@ -46,12 +46,22 @@ class LLMClient:
     def _init_openai(self):
         import openai
 
-        kwargs = {}
+        kwargs: dict = {}
         if settings.openai_base_url:
             # Custom gateway (e.g., Salesforce Research Gateway)
             kwargs["base_url"] = settings.openai_base_url
             kwargs["api_key"] = "dummy"
             kwargs["default_headers"] = {"X-Api-Key": settings.openai_api_key}
+        elif settings.prismtrace_api_key:
+            # Zero-code PRISM proxy: traces model calls without call-site changes.
+            # Proxy reads the provider key from x-api-key (not only Authorization).
+            host = settings.prismtrace_host.rstrip("/")
+            kwargs["base_url"] = f"{host}/proxy/openai/v1"
+            kwargs["api_key"] = settings.openai_api_key
+            kwargs["default_headers"] = {
+                "X-PRISMtrace-Key": settings.prismtrace_api_key,
+                "x-api-key": settings.openai_api_key,
+            }
         else:
             # Standard OpenAI API
             kwargs["api_key"] = settings.openai_api_key
@@ -67,13 +77,32 @@ class LLMClient:
         else:
             import anthropic
 
-            self._anthropic_client = anthropic.AsyncAnthropic(api_key=settings.anthropic_api_key)
+            kwargs: dict = {"api_key": settings.anthropic_api_key}
+            if settings.prismtrace_api_key:
+                host = settings.prismtrace_host.rstrip("/")
+                kwargs["base_url"] = f"{host}/proxy/anthropic"
+                kwargs["default_headers"] = {
+                    "X-PRISMtrace-Key": settings.prismtrace_api_key,
+                    "x-api-key": settings.anthropic_api_key,
+                }
+            self._anthropic_client = anthropic.AsyncAnthropic(**kwargs)
             self._use_bedrock = False
 
     def _init_gemini(self):
         from google import genai
 
-        self._gemini_client = genai.Client(api_key=settings.gemini_api_key)
+        kwargs: dict = {"api_key": settings.gemini_api_key}
+        if settings.prismtrace_api_key:
+            # google-genai: route via PRISM Gemini proxy when tracing is enabled.
+            host = settings.prismtrace_host.rstrip("/")
+            kwargs["http_options"] = {
+                "base_url": f"{host}/proxy/gemini",
+                "headers": {
+                    "X-PRISMtrace-Key": settings.prismtrace_api_key,
+                    "x-api-key": settings.gemini_api_key,
+                },
+            }
+        self._gemini_client = genai.Client(**kwargs)
 
     async def complete(
         self,
