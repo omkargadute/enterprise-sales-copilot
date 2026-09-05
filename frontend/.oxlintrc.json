@@ -14,5 +14,5 @@
     "react/exhaustive-deps": "warn",
     "unicorn/prefer-add-event-listener": "off"
   },
-  "ignorePatterns": ["dist/**", "node_modules/**"]
+  "ignorePatterns": ["dist/**", ".next/**", "node_modules/**", "next-env.d.ts"]
 }

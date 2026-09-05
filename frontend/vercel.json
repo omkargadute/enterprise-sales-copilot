@@ -1,8 +1,6 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
-  "framework": "vite",
-  "buildCommand": "bun run build",
-  "installCommand": "bun install",
-  "outputDirectory": "dist",
-  "rewrites": [{ "source": "/(.*)", "destination": "/index.html" }]
+  "framework": "nextjs",
+  "installCommand": "npm exec --yes bun@1.4.2 -- install --frozen-lockfile",
+  "buildCommand": "bun run build"
 }

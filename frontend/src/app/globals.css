@@ -40,8 +40,8 @@
 
   --color-header: transparent;
 
-  --font-sans: "Plus Jakarta Sans", system-ui, -apple-system, sans-serif;
-  --font-mono: "JetBrains Mono", ui-monospace, monospace;
+  --font-sans: var(--font-plus-jakarta), system-ui, -apple-system, sans-serif;
+  --font-mono: var(--font-jetbrains-mono), ui-monospace, monospace;
 
   --radius-sm: 8px;
   --radius-md: 12px;
@@ -68,14 +68,6 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow: hidden;
-}
-
-#root {
-  min-height: 100dvh;
-  display: flex;
-  flex-direction: column;
-  position: relative;
-  isolation: isolate;
 }
 
 .app-canvas {
@@ -203,16 +195,6 @@ body {
   50% { opacity: 0.35; }
 }
 
-@keyframes shimmer {
-  0% { background-position: -200% 0; }
-  100% { background-position: 200% 0; }
-}
-
-@keyframes count-up-glow {
-  0%, 100% { text-shadow: 0 0 0 transparent; }
-  50% { text-shadow: 0 0 20px rgb(94 106 210 / 0.3); }
-}
-
 .animate-fade-slide-up {
   animation: fade-slide-up 0.3s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
@@ -228,10 +210,6 @@ body {
 .animate-blink {
   animation: blink 1.2s ease-in-out infinite;
 }
-
-.stagger-1 { animation-delay: 60ms; }
-.stagger-2 { animation-delay: 120ms; }
-.stagger-3 { animation-delay: 180ms; }
 
 @media (prefers-reduced-motion: reduce) {
   *,
