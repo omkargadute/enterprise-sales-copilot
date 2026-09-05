@@ -1,0 +1,29 @@
+# Secrets / local env
+credentials.env
+.env
+.env.*
+!.env.example
+
+# Python
+.venv/
+__pycache__/
+*.py[cod]
+.ruff_cache/
+.pytest_cache/
+*.egg-info/
+dist/
+data/
+
+# Frontend
+frontend/node_modules/
+frontend/dist/
+frontend/.vercel/
+
+# Vercel (repo root link)
+.vercel/
+
+# OS / editor
+.DS_Store
+.idea/
+.vscode/
+*.log
